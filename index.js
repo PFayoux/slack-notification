@@ -37,7 +37,7 @@ async function runCmd(cmd, options) {
   return data
 }
 
-socketModeClient.on("message", async ({ event }) => {
+socketModeClient.on("message", async ({ event, ack }) => {
   for (const channel of subscribedChannels) {
     if (event.channel === channel.channelId) {
       console.log(event)
@@ -51,6 +51,7 @@ socketModeClient.on("message", async ({ event }) => {
         await runCmd("notify-send", [event.text])
       }
     }
+    await ack()
   }
 })
 
